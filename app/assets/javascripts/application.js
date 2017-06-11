@@ -27,6 +27,19 @@ $(window).scroll(function() {
     $('#navbar').addClass('show_bgcolor')
   }
 
+  /*===== Welcome#index - 回到頁面頂端 =====*/
+  if ($(this).scrollTop() > 1000) {
+    $(".goTop").fadeIn(100); //按钮出现时间（画面下移）
+  } else {
+    $(".goTop").fadeOut(200); //按钮消失时间（画面上移）
+  }
+
+  $(".goTop").click(
+    function() {
+      $('html,body').scrollTop(0);
+    });
+
+
 })
 
 
@@ -105,6 +118,10 @@ $(document).on('turbolinks:load', function() {
   });
 
   });
+
+
+
+
 
 
 
