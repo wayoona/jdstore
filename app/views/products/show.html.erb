@@ -44,10 +44,12 @@
         <div class="add-to-fav">
           <% if !@product.users.include?(current_user) %>
           <%= link_to("",add_to_favorite_product_path(@product),method: :post,class: "fa fa-heart fa-1.5x", style: "color:rgba(0,0,0,0.1);") %>
+
         <% else %>
           <%= link_to("", quit_favorite_product_path(@product),method: :post,  class: "fa fa-heart fa-1.5x", style: "color:rgba(255,0,0,0.4);") %>
           <% end %>
-          收藏
+          收藏 (<%= @product.favorite_count %>)
+
         </div>
         <div style="float:right;">
           <!-- <i class='fa fa-weixin fa-fw'> </i> -->
