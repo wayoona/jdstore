@@ -1,7 +1,7 @@
 IntercomRails.config do |config|
   # == Intercom app_id
   #
-  config.app_id = ENV["INTERCOM_APP_ID"] || "l2crdzjm"
+  config.app_id = ENV["INTERCOM_APP_ID"] || "fviuaksp"
   config.include_for_logged_out_users = true
   config.user.current = Proc.new { current_user_object }
   config.api_secret = Rails.application.secrets.intercom_secure_mode_secret_key
