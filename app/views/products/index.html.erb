@@ -29,10 +29,12 @@
   <% else %>
    <%= link_to("", quit_favorite_product_path(product),method: :post,  class: "fa fa-heart fa-1.5x", style: "color:rgba(255,0,0,0.4);") %>
   <% end %>
+  <!-- 人气-收藏数量-->
+ <span style="color:rgba(0,0,0,0.25);font-size:10px;"><%= product.favorite_count %></span>
 </div>
 
      <div class="product-info">
-       <p><span>￥</span><%= product.price %></p>
+       <p><span>￥</span><%= product.price%></p>
         <p><%= product.title %></p>
 
 

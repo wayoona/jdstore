@@ -6,12 +6,14 @@ before_action :validate_search_key, only: [:search]
 def add_to_favorite
 @product = Product.find(params[:id])
 @product.users << current_user
+@product.favorite_count+=1
 @product.save
 redirect_to :back, notice:"成功加入收藏!"
 end
 def quit_favorite
 @product = Product.find(params[:id])
 @product.users.delete(current_user)
+@product.favorite_count-=1
 @product.save
 redirect_to :back, alert: "成功取消收藏!"
 end
@@ -57,11 +59,21 @@ end
 
   def add_to_cart
     @product = Product.find(params[:id])
+
+    @quantity = params[:quantity].to_i
+
     if !current_cart.products.include?(@product)
-        current_cart.add_product_to_cart(@product)
+        current_cart.add_product_to_cart(@product,@quantity)
         flash[:notice] = "你已成功将 #{@product.title} 加入购物车"
     else
-      flash[:warning] = "你的购物车内已有此物品"
+        current_cart.update_product_quantity_in_cart(@product,@quantity)
+      @previous_quantity=current_cart.cart_items.find_by(product: @product).quantity
+      if @previous_quantity+@quantity<=@product.quantity
+
+      flash[:warning] = "你的购物车内已有此物品,成功增加#{@quantity}个,目前数量#{current_cart.cart_items.find_by(product: @product).quantity}个。"
+      else
+        flash[:warning] = "你的购物车内已有此物品#{@previous_quantity}个,新增数量后超过#{@product.quantity}个库存，帮您成功增加#{@product.quantity-@previous_quantity}个,目前数量#{@product.quantity}个。"
+      end
     end
 
     redirect_to :back
