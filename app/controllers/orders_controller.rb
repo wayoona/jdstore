@@ -14,6 +14,12 @@ class OrdersController < ApplicationController
               product_list.product_price = cart_item.product.price
               product_list.quantity = cart_item.quantity
               product_list.save
+
+              # 生成订单时减少订单内产品库存
+              i=cart_item.product
+              i.quantity-=cart_item.quantity
+              i.save
+
             end
           current_cart.clean!
           OrderMailer.notify_order_placed(@order).deliver!

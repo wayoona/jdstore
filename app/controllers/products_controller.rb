@@ -57,7 +57,7 @@ end
 
   def add_to_cart
     @product = Product.find(params[:id])
-    @previous_quantity=current_cart.cart_items.find_by(product: @product).quantity
+
     @quantity = params[:quantity].to_i
 
     if !current_cart.products.include?(@product)
@@ -65,12 +65,12 @@ end
         flash[:notice] = "你已成功将 #{@product.title} 加入购物车"
     else
         current_cart.update_product_quantity_in_cart(@product,@quantity)
-
+      @previous_quantity=current_cart.cart_items.find_by(product: @product).quantity
       if @previous_quantity+@quantity<=@product.quantity
 
       flash[:warning] = "你的购物车内已有此物品,成功增加#{@quantity}个,目前数量#{current_cart.cart_items.find_by(product: @product).quantity}个。"
       else
-        flash[:warning] = "你的购物车内已有此物品#{@previous_quantity}个,新增数量后超过库存#{@product.quantity}个，帮您成功增加#{@product.quantity-@previous_quantity}个,目前数量#{@product.quantity}个。"
+        flash[:warning] = "你的购物车内已有此物品#{@previous_quantity}个,新增数量后超过#{@product.quantity}个库存，帮您成功增加#{@product.quantity-@previous_quantity}个,目前数量#{@product.quantity}个。"
       end
     end
 
