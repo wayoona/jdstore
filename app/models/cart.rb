@@ -12,13 +12,18 @@ class Cart < ApplicationRecord
   has_many :products, through: :cart_items, source: :product
 
 
-  def add_product_to_cart(product)
+  def add_product_to_cart(product,quantity)
     ci = cart_items.build
     ci.product = product
-    ci.quantity = 1
+    ci.quantity = quantity
     ci.save
   end
 
+  def update_product_quantity_in_cart(product,quantity)
+    ci = cart_items.find_by(product: product)
+    ci.quantity += quantity.to_i
+    ci.save
+  end
 
   def total_price
     sum = 0
