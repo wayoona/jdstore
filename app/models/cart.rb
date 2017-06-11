@@ -21,7 +21,11 @@ class Cart < ApplicationRecord
 
   def update_product_quantity_in_cart(product,quantity)
     ci = cart_items.find_by(product: product)
-    ci.quantity += quantity.to_i
+    if   ci.quantity + quantity <= product.quantity
+    ci.quantity += quantity
+  else
+    ci.quantity=product.quantity
+  end
     ci.save
   end
 
